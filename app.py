@@ -10,7 +10,7 @@ try:
     
     # Display the first few rows of the dataframe
     st.subheader("First few rows of the dataset:")
-    st.write(df.head())
+    
 
     # Basic statistics of the dataset
     st.subheader("Basic statistics:")
