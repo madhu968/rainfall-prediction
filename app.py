@@ -1,5 +1,5 @@
 import pandas as pd
-
+import matplotlib.plt
 def main():
     try:
         # Load the data from the CSV file
