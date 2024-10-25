@@ -1,42 +1,44 @@
 import pandas as pd
-import matplotlib.plt
-def main():
-    try:
-        # Load the data from the CSV file
-        df = pd.read_csv('Rainfall.csv')
-        
-        # Display the first few rows of the dataframe
-        print("First few rows of the dataset:")
-        print(df.head())
+import matplotlib.pyplot as plt
+import streamlit as st
 
-        # Basic statistics of the dataset
-        print("\nBasic statistics:")
-        print(df.describe())
+st.title("Rainfall Data Visualization")
 
-        # Check for any missing values
-        print("\nMissing values in each column:")
-        print(df.isnull().sum())
+# Load the PKL file directly from the local directory
+try:
+    df = pd.read_pickle('Rainfall.pkl')
+    
+    # Display the first few rows of the dataframe
+    st.subheader("First few rows of the dataset:")
+    st.write(df.head())
 
-        # Handle missing values by filling them with the mean (or any other strategy)
-        df.fillna(df.mean(), inplace=True)
+    # Basic statistics of the dataset
+    st.subheader("Basic statistics:")
+    st.write(df.describe())
 
-        # Ensure 'day' is in the correct format
-        if df['day'].dtype != 'int64':
-            df['day'] = pd.to_numeric(df['day'], errors='coerce')
+    # Check for any missing values
+    st.subheader("Missing values in each column:")
+    st.write(df.isnull().sum())
 
-        # Plotting a simple graph - for example, rainfall over the days
-        plt.figure(figsize=(10, 5))
-        plt.plot(df['day'], df['rainfall'], marker='o')
-        plt.title('Rainfall Over Days')
-        plt.xlabel('Day')
-        plt.ylabel('Rainfall')
-        plt.grid(True)
-        plt.show()
+    # Handle missing values by filling them with the mean
+    df.fillna(df.mean(), inplace=True)
 
-    except FileNotFoundError:
-        print("Error: The file 'Rainfall.csv' was not found.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+    # Ensure 'day' is in the correct format
+    if df['day'].dtype != 'int64':
+        df['day'] = pd.to_numeric(df['day'], errors='coerce')
 
-if __name__ == '__main__':
-    main()
+    # Plotting rainfall over the days
+    plt.figure(figsize=(10, 5))
+    plt.plot(df['day'], df['rainfall'], marker='o')
+    plt.title('Rainfall Over Days')
+    plt.xlabel('Day')
+    plt.ylabel('Rainfall')
+    plt.grid(True)
+
+    # Display the plot in Streamlit
+    st.pyplot(plt)
+
+except FileNotFoundError:
+    st.error("Error: The file 'Rainfall.pkl' was not found.")
+except Exception as e:
+    st.error(f"An error occurred: {e}")
