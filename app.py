@@ -8,20 +8,7 @@ st.title("Rainfall Data Visualization")
 try:
     df = pd.read_pickle('Rainfall.pkl')
     
-    # Display the first few rows of the dataframe
-    st.subheader("First few rows of the dataset:")
-    
 
-    # Basic statistics of the dataset
-    st.subheader("Basic statistics:")
-    st.write(df.describe())
-
-    # Check for any missing values
-    st.subheader("Missing values in each column:")
-    st.write(df.isnull().sum())
-
-    # Handle missing values by filling them with the mean
-    df.fillna(df.mean(), inplace=True)
 
     # Ensure 'day' is in the correct format
     if df['day'].dtype != 'int64':
